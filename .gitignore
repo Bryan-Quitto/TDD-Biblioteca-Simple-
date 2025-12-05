@@ -1,0 +1,56 @@
+# Archivos y carpetas de compilación de .NET
+**/[Bb]in/
+**/[Oo]bj/
+
+# Archivos de publicación
+**/publish/
+
+# Archivos específicos del usuario de Visual Studio y otros editores
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+.idea/
+*.sln.DotSettings.user
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos de registro y temporales
+*.log
+*.tmp
+*.temp
+
+# Paquetes y dependencias (node_modules es el más importante)
+**/node_modules/
+**/packages/
+*.nupkg
+
+# Específico de Blazor
+**/wwwroot/dist/
+
+# --- SECCIÓN DE CONFIGURACIÓN CORREGIDA ---
+
+# Ignorar archivos de secretos de usuario y configuración de desarrollo local.
+# Estos archivos contienen información sensible o específica de la máquina.
+secrets.json
+*.user
+appsettings.Development.json
+
+# Ignorar el archivo de configuración de lanzamiento (launchSettings.json).
+# Este archivo a menudo contiene perfiles y configuraciones específicas del entorno local.
+**/Properties/launchSettings.json
+
+# Ignorar el appsettings de Infraestructura
+FacturasSRI.Infrastructure/appsettings.json
+
+#Ignorar archivos de certificados y claves privadas
+*.pfx
+*.key
+*.cer
+*.pem
+*.p12
