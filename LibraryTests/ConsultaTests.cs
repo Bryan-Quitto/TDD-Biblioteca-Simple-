@@ -43,4 +43,29 @@ public class ConsultaTests
         Assert.Single(prestados);
         Assert.Equal("Juan", prestados[0].UsuarioSolicitante.Nombre);
     }
+
+    [Fact]
+    public void ObtenerHistorialUsuario_DebeRetornarPrestamosActivosYDevueltos()
+    {
+        // Arrange
+        var biblioteca = new Biblioteca();
+        var libro = new Libro("L1", "Libro A", "A", 5);
+        var usuario = new Usuario("U1", "Juan");
+        
+        biblioteca.RegistrarLibro(libro);
+        biblioteca.RegistrarUsuario(usuario);
+
+        // Ciclo 1: Prestar y Devolver (Histórico)
+        biblioteca.PrestarLibro("L1", "U1");
+        biblioteca.DevolverLibro("L1", "U1");
+
+        // Ciclo 2: Prestar de nuevo (Activo)
+        biblioteca.PrestarLibro("L1", "U1");
+
+        // Act
+        var historial = biblioteca.ObtenerHistorialPorUsuario("U1"); 
+
+        // Assert
+        Assert.Equal(2, historial.Count); 
+    }
 }

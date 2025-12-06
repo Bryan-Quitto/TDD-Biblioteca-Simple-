@@ -8,6 +8,7 @@ public class Biblioteca
     private List<Libro> _libros = new List<Libro>();
     private List<Usuario> _usuarios = new List<Usuario>();
     private List<Prestamo> _prestamos = new List<Prestamo>();
+    private List<Prestamo> _historial = new List<Prestamo>();
 
     public bool RegistrarLibro(Libro libro)
     {
@@ -78,8 +79,16 @@ public class Biblioteca
 
     private void RealizarPrestamo(Libro libro, Usuario usuario)
     {
-        libro!.Stock--;
-        _prestamos.Add(new Prestamo(libro, usuario, DateTime.Now));
+        libro.Stock--;
+        var nuevoPrestamo = new Prestamo(libro, usuario, DateTime.Now);
+        
+        _prestamos.Add(nuevoPrestamo);
+        _historial.Add(nuevoPrestamo);
+    }
+
+    public List<Prestamo> ObtenerHistorialPorUsuario(string codigoUsuario)
+    {
+        return _historial.Where(p => p.UsuarioSolicitante.Codigo == codigoUsuario).ToList();
     }
 
     public List<Prestamo> ObtenerPrestamos()
@@ -110,6 +119,7 @@ public class Biblioteca
     private void FinalizarPrestamo(Prestamo prestamo)
     {
         prestamo.LibroPrestado.Stock++;
+        prestamo.FechaDevolucion = DateTime.Now;
         _prestamos.Remove(prestamo);
     }
 
