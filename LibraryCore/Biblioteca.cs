@@ -113,4 +113,9 @@ public class Biblioteca
         _prestamos.Remove(prestamo);
     }
 
+    public List<Libro> ObtenerLibrosDisponibles()
+    {
+        return _libros.Where(l => l.Stock > 0).ToList();
+    }
+
 }
