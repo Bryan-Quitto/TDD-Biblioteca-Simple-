@@ -7,6 +7,7 @@ public class Biblioteca
 {
     private List<Libro> _libros = new List<Libro>();
     private List<Usuario> _usuarios = new List<Usuario>();
+    private List<Prestamo> _prestamos = new List<Prestamo>();
 
     public bool RegistrarLibro(Libro libro)
     {
@@ -53,4 +54,37 @@ public class Biblioteca
     {
         return _usuarios;
     }
+
+    public bool PrestarLibro(string codigoLibro, string codigoUsuario)
+    {
+        var libro = _libros.FirstOrDefault(l => l.Codigo == codigoLibro);
+        var usuario = _usuarios.FirstOrDefault(u => u.Codigo == codigoUsuario);
+
+        if (!EsPrestamoValido(libro!, usuario!))
+        {
+            return false;
+        }
+
+        RealizarPrestamo(libro!, usuario!);
+        return true;
+    }
+
+    private bool EsPrestamoValido(Libro libro, Usuario usuario)
+    {
+        if (libro == null || usuario == null) return false;
+        if (libro.Stock <= 0) return false;
+        return true;
+    }
+
+    private void RealizarPrestamo(Libro libro, Usuario usuario)
+    {
+        libro!.Stock--;
+        _prestamos.Add(new Prestamo(libro, usuario, DateTime.Now));
+    }
+
+    public List<Prestamo> ObtenerPrestamos()
+    {
+        return _prestamos;
+    }
+
 }
