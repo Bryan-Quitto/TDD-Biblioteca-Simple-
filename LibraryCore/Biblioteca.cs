@@ -87,4 +87,30 @@ public class Biblioteca
         return _prestamos;
     }
 
+    public bool DevolverLibro(string codigoLibro, string codigoUsuario)
+    {
+        var prestamo = BuscarPrestamoActivo(codigoLibro, codigoUsuario);
+
+        if (prestamo == null)
+        {
+            return false;
+        }
+
+        FinalizarPrestamo(prestamo);
+        return true;
+    }
+
+    private Prestamo? BuscarPrestamoActivo(string codigoLibro, string codigoUsuario)
+    {
+        return _prestamos.FirstOrDefault(p => 
+            p.LibroPrestado.Codigo == codigoLibro && 
+            p.UsuarioSolicitante.Codigo == codigoUsuario);
+    }
+
+    private void FinalizarPrestamo(Prestamo prestamo)
+    {
+        prestamo.LibroPrestado.Stock++;
+        _prestamos.Remove(prestamo);
+    }
+
 }
